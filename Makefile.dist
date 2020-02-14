@@ -1,12 +1,14 @@
 all: library all_samples
 
 #CFLAGS=-arch i386 -arch x86_64 -O3  -I. -w
-CFLAGS=-O3  -I. -w
-CC=gcc
-CXX=g++
+CFLAGS=-O3 -I. -w -fPIC
+CC=clang
+CXX=clang++
 
 # OpenMP support
 #CFLAGS+=-fopenmp
+
+CFLAGS+=-DUSE_X3FTOOLS
 
 # RawSpeed Support
 #CFLAGS+=-pthread -DUSE_RAWSPEED -I../RawSpeed -I/usr/local/include/libxml2
@@ -97,7 +99,7 @@ LIB_MT_OBJECTS= object/libraw_datastream.mt.o object/libraw_c_api.mt.o \
   object/tiff.mt.o object/ciff.mt.o object/mediumformat.mt.o \
   object/minolta.mt.o \
   object/identify_tools.mt.o \
-  object/hasselblad_model.o object/normalize_model.mt.o object/identify.mt.o \
+  object/hasselblad_model.mt.o object/normalize_model.mt.o object/identify.mt.o \
   object/misc_parsers.mt.o object/wblists.mt.o \
   object/postprocessing_aux.mt.o object/postprocessing_utils_dcrdefs.mt.o \
   object/aspect_ratio.mt.o \

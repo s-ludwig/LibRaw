@@ -1,12 +1,14 @@
 all: library all_samples
 
 #CFLAGS=-arch i386 -arch x86_64 -O3  -I. -w
-CFLAGS=-O3  -I. -w
-CC=gcc
-CXX=g++
+CFLAGS=-O3 -I. -w -fPIC
+CC=clang
+CXX=clang++
 
 # OpenMP support
 #CFLAGS+=-fopenmp
+
+CFLAGS+=-DUSE_X3FTOOLS
 
 # RawSpeed Support
 #CFLAGS+=-pthread -DUSE_RAWSPEED -I../RawSpeed -I/usr/local/include/libxml2

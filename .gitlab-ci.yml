@@ -1,0 +1,60 @@
+stages:
+  - build
+
+build:windows-ldc-x86_64:
+  stage: build
+  tags: [windows, x86_64]
+  script: OS=windows DC=ldc2 TARGET=x86_64 WINDOWS_PLATFORM=x64 ./build.sh
+  artifacts:
+    paths:
+      - buildfiles/release-x86_64/libraw.lib
+      - buildfiles/release-x86_64/libraw.pdb
+
+build:windows-ldc-x86:
+  stage: build
+  tags: [windows, x86]
+  script: OS=windows DC=ldc2 TARGET=x86 WINDOWS_PLATFORM=x86 ./build.sh
+  artifacts:
+    paths:
+      - buildfiles/Release/libraw.lib
+      - buildfiles/Release/libraw.pdb
+
+build:ubuntu-ldc-x86_64:
+  stage: build
+  tags: [ubuntu, x86_64]
+  script: OS=linux DC=ldc2 TARGET=x86_64-linux-gnu ./build.sh
+  artifacts:
+    paths:
+      - lib/libraw_r.a
+
+build:osx-x86_64:
+  stage: build
+  tags: [osx, x86_64]
+  script: OS=macos DC=ldc2 TARGET=x86_64-apple-macosx10.12 MACOSX_DEPLOYMENT_TARGET=10.12 ./build.sh
+  artifacts:
+    paths:
+      - lib/libraw_r.a
+
+build:osx-arm64:
+  stage: build
+  tags: [osx]
+  script: OS=macos DC=ldc2 TARGET=arm64-apple-macosx12.0 MACOSX_DEPLOYMENT_TARGET=12.0 ./build.sh
+  artifacts:
+    paths:
+      - lib/libraw_r.a
+
+build:ios-arm64:
+  stage: build
+  tags: [osx]
+  script: OS=ios DC=ldc2 TARGET=arm64-apple-ios16.0 IPHONEOS_DEPLOYMENT_TARGET=16.0 ./build.sh
+  artifacts:
+    paths:
+      - lib/libraw_r.a
+
+build:ios_simulator-x86_64:
+  stage: build
+  tags: [osx]
+  script: OS=ios DC=ldc2 TARGET=x86_64-apple-ios16.0-simulator IPHONEOS_DEPLOYMENT_TARGET=16.0 ./build.sh
+  artifacts:
+    paths:
+      - lib/libraw_r.a

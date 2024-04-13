@@ -1,0 +1,149 @@
+name: Build
+
+# Only triggers on pushes/PRs to master
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  windows-x86_64:
+    runs-on: [windows, x86_64]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Build
+        shell: bash
+        run: OS=windows DC=ldc2 TARGET=x86_64 WINDOWS_PLATFORM=x64 ./build.sh
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: library-windows-x86_64
+          path: |
+            buildfiles/release-x86_64/libraw.lib
+            buildfiles/release-x86_64/libraw.pdb
+
+  windows-x86:
+    runs-on: [windows, x86]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Build
+        shell: bash
+        run: OS=windows DC=ldc2 TARGET=x86 WINDOWS_PLATFORM=x86 ./build.sh
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: library-windows-x86
+          path: |
+            buildfiles/Release/libraw.lib
+            buildfiles/Release/libraw.pdb
+
+  ubuntu-x86_64:
+    runs-on: [ubuntu-baseline, x86_64]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Build
+        shell: bash
+        run: OS=linux DC=ldc2 TARGET=x86_64-linux-gnu ./build.sh
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: library-ubuntu-x86_64
+          path: |
+            lib/libraw_r.a
+
+  macos-x86_64:
+    runs-on: [macos]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Build
+        shell: bash
+        run: OS=macos DC=ldc2 TARGET=x86_64-apple-macosx10.12 CTARGET=x86_64-apple-macosx10.12 MACOSX_DEPLOYMENT_TARGET=10.12 ./build.sh
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: library-macos-x86_64
+          path: |
+            lib/libraw_r.a
+
+  macos-arm64:
+    runs-on: [macos]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Build
+        shell: bash
+        run: OS=macos DC=ldc2 TARGET=arm64-apple-macosx12.0 CTARGET=aarch64-apple-macosx12 MACOSX_DEPLOYMENT_TARGET=12.0 ./build.sh
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: library-macos-arm64
+          path: |
+            lib/libraw_r.a
+
+  ios-arm64:
+    runs-on: [macos]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Build
+        shell: bash
+        run: OS=ios DC=ldc2 TARGET=arm64-apple-ios16.0 CTARGET=aarch64-apple-ios IPHONEOS_DEPLOYMENT_TARGET=16.0 ./build.sh
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: library-ios-arm64
+          path: |
+            lib/libraw_r.a
+
+  ios-simulator-x86_64:
+    runs-on: [macos]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Build
+        shell: bash
+        run: OS=ios DC=ldc2 TARGET=x86_64-apple-ios16.0-simulator CTARGET=x86_64-apple-darwin IPHONEOS_DEPLOYMENT_TARGET=16.0 ./build.sh
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: library-ios-simulator-x86_64
+          path: |
+            lib/libraw_r.a
+
+  android-arm64:
+    runs-on: [ubuntu, android-cross]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Build
+        shell: bash
+        run: OS=android DC=ldc2 TARGET=aarch64-linux-android ./build.sh
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: library-android-arm64
+          path: |
+            lib/libraw_r.a

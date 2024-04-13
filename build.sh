@@ -13,7 +13,7 @@ elif [ $OS == "ios" ]; then
 		make -f Makefile.iphone lib/libraw_r.a
 	fi
 elif [ $OS == "windows" ]; then
-	MSBuild.exe buildfiles/libraw.vcxproj /property:Configuration=Release /property:Platform=$WINDOWS_PLATFORM
+	MSBuild.exe buildfiles/libraw.vcxproj /property:Configuration=Release /property:Platform=$WINDOWS_PLATFORM | ( iconv -f utf-8 -t utf-8 -c || true )
 else
 	echo Unknown OS: $OS
 	exit 1

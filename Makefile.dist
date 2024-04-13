@@ -2,8 +2,10 @@ all: library all_samples
 
 #CFLAGS=-arch i386 -arch x86_64 -O3  -I. -w
 CFLAGS:=$(CFLAGS) -O3 -I. -w -fPIC
-CC=clang
-CXX=clang++
+CC?=clang
+CXX?=clang++
+AR?=ar
+RANLIB?=ranlib
 
 # OpenMP support
 #CFLAGS+=-fopenmp
@@ -186,13 +188,13 @@ object/half_mt.o: samples/half_mt.c
 
 lib/libraw.a: ${LIB_OBJECTS}
 	rm -f lib/libraw.a
-	ar crv lib/libraw.a ${LIB_OBJECTS}
-	ranlib lib/libraw.a
+	${AR} crv lib/libraw.a ${LIB_OBJECTS}
+	${RANLIB} lib/libraw.a
 
 lib/libraw_r.a: ${LIB_MT_OBJECTS}
 	rm -f lib/libraw_r.a
-	ar crv lib/libraw_r.a ${LIB_MT_OBJECTS}
-	ranlib lib/libraw_r.a
+	${AR} crv lib/libraw_r.a ${LIB_MT_OBJECTS}
+	${RANLIB} lib/libraw_r.a
 
 clean:
 	rm -fr bin/*.dSYM

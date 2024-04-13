@@ -1,7 +1,8 @@
 if [ $OS == "linux" ]; then
-	CFLAGS=--target=$TARGET make -f Makefile.dist lib/libraw_r.a
+
+	CC=clang CXX=clang++ CFLAGS=--target=$TARGET make -f Makefile.dist lib/libraw_r.a
 elif [ $OS == "macos" ]; then
-	CFLAGS=--target=$TARGET make -f Makefile.dist lib/libraw_r.a
+	CC=clang CXX=clang++ CFLAGS=--target=$TARGET make -f Makefile.dist lib/libraw_r.a
 elif [ $OS == "android" ]; then
 	source ~/android-ndk-envvars
 	export CFLAGS="$CFLAGS --target=$TARGET"
